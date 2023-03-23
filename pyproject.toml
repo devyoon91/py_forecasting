@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "py-forecasting"
+version = "0.1.0"
+description = ""
+authors = ["devyoon91 <kimbyungyoun91@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+prophet = "^1.1.2"
+scikit-learn = "^1.2.2"
+psutil = "^5.9.4"
+fastapi = "^0.95.0"
+loguru = "^0.6.0"
+fastapi-versioning = "^0.10.0"
+uvicorn = "^0.21.1"
+finance-datareader = "^0.9.50"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
