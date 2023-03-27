@@ -121,3 +121,5 @@
 - https://techexpert.tips/ko/powershell-ko
 - https://facebook.github.io/prophet/docs/quick_start.html
 - https://machinelearningmastery.com/time-series-forecasting-with-prophet-in-python/
+- https://jinja.palletsprojects.com/en/3.1.x/templates/
+- https://mizykk.tistory.com/102

@@ -104,13 +104,6 @@ def test_prophet_manual_forecasting():
     # 예측
     forecast = model.predict(future)
 
-    # 실제값, 예측값 비교 테이블 생성
-    df1 = df[-12:]
-    df2 = forecast[['ds', 'yhat']]
-
-    result = pandas.merge(df1, df2)
-    print(result)
-
     # 절대 오차 평균 계산(MAE)
     # 12월의 기대값과 예측값 사이의 MAE 계산
     y_true = df['y'][-12:].values  # 1968-01 ~ 1968-12 실제값
@@ -121,10 +114,48 @@ def test_prophet_manual_forecasting():
     print('MAE: %.3f' % mae)
 
     # 예상 플롯 vs 실제
-    # pyplot.plot(y_true, label='Actual')
-    # pyplot.plot(y_pred, label='Predicted')
-    # pyplot.legend()
-    # pyplot.show()
+    pyplot.plot(y_true, label='Actual')
+    pyplot.plot(y_pred, label='Predicted')
+    pyplot.legend()
+    pyplot.show()
+
+
+def test_prophet_manual_forecasting_2():
+    """
+
+    :return:
+    """
+    df = read_csv(CSV_URL, header=0)
+    df.columns = ['ds', 'y']
+    df['ds'] = to_datetime(df['ds'])
+    df['yhat'] = 0
+    df['yhat_lower'] = 0
+    df['yhat_upper'] = 0
+
+    print(df)
+
+    # 모델 생성
+    model = Prophet()
+
+    # 모델 학습
+    model.fit(df)
+
+    # 년월 데이터 셋 생성
+    future = list()
+    for i in range(1, 13):
+        date = f'1969-%02d' % i
+        future.append([date])
+    future = DataFrame(future)
+    future.columns = ['ds']
+    future['ds'] = to_datetime(future['ds'])
+
+    forecast = model.predict(future)
+    forecast['y'] = 0
+
+    # 예측된 dataframe과 합치기
+    ndf = pandas.concat([df, forecast[['ds', 'y', 'yhat', 'yhat_lower', 'yhat_upper']]])
+    print(df)
+    print(ndf)
 
 
 if __name__ == '__main__':
@@ -138,5 +169,6 @@ if __name__ == '__main__':
     # test_prophet_forecasting("1969")
 
     # Manually Evaluate Forecast Model(수동 으로 예측 모델 평가)
-    test_prophet_manual_forecasting()
+    # test_prophet_manual_forecasting()
+    test_prophet_manual_forecasting_2()
 

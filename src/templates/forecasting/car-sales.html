@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Monthly Car Sales Forecasting</title>
+    <link href="https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+</head>
+<style>
+    .forecasting {
+        margin: 0;
+        padding: 0.3rem;
+        background-color: #eee;
+    }
+
+    .div-chart-01 {
+        width: 100%;
+        height: 600px;
+        background-color: #ffffff;
+    }
+
+    .div-chart-01-left {
+        width: 48%;
+        height: 100%;
+        float: left;
+        margin: 0;
+    }
+
+    .div-chart-01-right {
+        padding: 0 5px 0 5px;
+        border-left: #eee solid 5px;
+        width: 50%;
+        height: 100%;
+        float: right;
+    }
+</style>
+<body>
+    <div class="main">
+        <section class="forecasting">
+            <article>
+                <h1>Monthly Car Sales Forecasting</h1>
+                <p>표본 : 1960년 ~ 1968년, 예측 : 1968년 ~ 1969년</p>
+            </article>
+            <article class="div-chart-01">
+                <div class="div-chart-01-left">
+                    <canvas id="line-chart"></canvas>
+                </div>
+                <div class="div-chart-01-right">
+                    <div id="wrapper"></div>
+                </div>
+            </article>
+            <article>
+                <p><b>MAE(Mean Absolute Error)</b> : {{ mae }}, </p>
+                <p><b>MSE(Mean Squared Error)</b> : {{ mse }}, </p>
+                <p><b>RMSE(Root Mean Squared Error)</b> : {{ rmse }}, </p>
+                <p><b>MSLE(Mean Squared Log Error)</b> : {{ msle }}</p>
+                <p><b>MAPE(Mean Absolute Percentage Error)</b> : {{ mape }}, </p>
+                <p><b>MPE(Mean Percentage Error)</b> : {{ mpe }}, </p>
+            </article>
+        </section>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
+<script>
+    fnChart();
+    fnGrid();
+
+    function fnGrid() {
+        const data = {{ data | tojson }};
+        new gridjs.Grid({
+            columns: [
+                "년월",
+                "실제값",
+                "예측값",
+                "예측 최소값",
+                "예측 최대값",
+                // {
+                //     name: "예측",
+                //     data: null,
+                //     formatter: (_, row) => `$${(row.cells[0].data + row.cells[1].data).toLocaleString()} USD`
+                // }
+            ],
+            pagination: true,
+            resizable: true,
+            sort: true,
+            data: data,
+            style: {
+                table: {
+                  border: '3px solid #ccc'
+                },
+                th: {
+                  'background-color': 'rgba(0, 0, 0, 0.1)', color: '#000',
+                  'border-bottom': '3px solid #ccc',
+                  'text-align': 'center'
+                },
+                td: {
+                  'text-align': 'center'
+                }
+              }
+        }).render(document.getElementById("wrapper"));
+    }
+
+    function fnChart() {
+        const ctx = document.getElementById('line-chart');
+        const labels = {{ label | tojson }};
+        const y = {{ y }};
+        const yhat = {{ yhat }};
+        const yhat_lower = {{ yhat_lower }};
+        const yhat_upper = {{ yhat_upper }};
+        const datasets = {
+            labels: labels,
+                datasets: [{
+                label: '실제값',
+                data: y,
+                fill: false,
+                borderColor: "rgba(0,0,0,0)",
+                tension: 0.1,
+                pointBackgroundColor: "rgb(0,0,0)",
+                pointBorderColor: "rgb(0,0,0)",
+                pointStyle: 'circle',
+                pointRadius: 2,
+                pointHoverRadius: 2,
+            },
+            {
+                label: '예측값',
+                data: yhat,
+                fill: false,
+                tension: 0.1,
+                borderColor: 'rgb(0,50,252)',
+            },
+            {
+                label: '예측_최소값',
+                data: yhat_lower,
+                fill: false,
+                tension: 0.1,
+                borderColor: 'rgba(0,255,217,0.66)',
+                pointBackgroundColor: "rgba(253,248,0,0.88)",
+                pointBorderColor: "rgb(0,0,0)",
+                pointStyle: 'circle',
+                pointRadius: 2,
+                pointHoverRadius: 2,
+            },
+            {
+                label: '예측_최대값',
+                data: yhat_upper,
+                fill: 2,
+                tension: 0.1,
+                borderColor: 'rgba(0,255,217,0.66)',
+                backgroundColor: 'rgba(0,255,217,0.66)',
+                pointBackgroundColor: "rgb(255,0,0)",
+                pointBorderColor: "rgb(0,0,0)",
+                pointStyle: 'circle',
+                pointRadius: 2,
+                pointHoverRadius: 2
+            }],
+        };
+        const config = {
+            type: 'line',
+            data: datasets,
+        };
+        new Chart(ctx, config);
+    }
+</script>
+</html>
