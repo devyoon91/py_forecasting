@@ -123,3 +123,6 @@
 - https://machinelearningmastery.com/time-series-forecasting-with-prophet-in-python/
 - https://jinja.palletsprojects.com/en/3.1.x/templates/
 - https://mizykk.tistory.com/102
+- https://www.chartjs.org/docs/latest/
+- https://gridjs.io/docs/examples/hello-world
+- https://yeon22.github.io/Chartjs-kr/docs/latest/

@@ -12,16 +12,18 @@
     .forecasting {
         margin: 0;
         padding: 0.3rem;
-        background-color: #eee;
+        background-color: #ffffff;
+        box-shadow: 5px 5px gray;
+        border: 1px solid #eee;
     }
 
     .div-chart-01 {
         width: 100%;
         height: 600px;
-        background-color: #ffffff;
     }
 
     .div-chart-01-left {
+        position: relative;
         width: 48%;
         height: 100%;
         float: left;
@@ -30,7 +32,6 @@
 
     .div-chart-01-right {
         padding: 0 5px 0 5px;
-        border-left: #eee solid 5px;
         width: 50%;
         height: 100%;
         float: right;
@@ -136,9 +137,10 @@
                 data: yhat_lower,
                 fill: false,
                 tension: 0.1,
-                borderColor: 'rgba(0,255,217,0.66)',
-                pointBackgroundColor: "rgba(253,248,0,0.88)",
-                pointBorderColor: "rgb(0,0,0)",
+                // borderColor: 'rgba(253,248,0,0)',
+                backgroundColor: 'rgba(0,217,255,0.66)',
+                pointBackgroundColor: 'rgba(253,248,0,0.88)',
+                pointBorderColor: 'rgb(0,0,0)',
                 pointStyle: 'circle',
                 pointRadius: 2,
                 pointHoverRadius: 2,
@@ -148,10 +150,10 @@
                 data: yhat_upper,
                 fill: 2,
                 tension: 0.1,
-                borderColor: 'rgba(0,255,217,0.66)',
-                backgroundColor: 'rgba(0,255,217,0.66)',
-                pointBackgroundColor: "rgb(255,0,0)",
-                pointBorderColor: "rgb(0,0,0)",
+                // borderColor: 'rgb(255,0,0)',
+                backgroundColor: 'rgba(0,217,255,0.66)',
+                pointBackgroundColor: 'rgb(255,0,0)',
+                pointBorderColor: 'rgb(0,0,0)',
                 pointStyle: 'circle',
                 pointRadius: 2,
                 pointHoverRadius: 2
